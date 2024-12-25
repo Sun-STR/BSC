@@ -1,3 +1,5 @@
+//npm install jsonwebtoken
+//npm install bcrypt
 // File: server.js
 const mysql = require('mysql2/promise'); // ใช้ mysql2/promise
 const config = require('./config');
