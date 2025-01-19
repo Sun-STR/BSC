@@ -46,7 +46,7 @@ export default function Rights() {
 
     ///// PAGINATION /////
     const [currentPage, setCurrentPage] = useState(1);
-    const rightsPerPage = 10;
+    const [rightsPerPage,setRightPerpage] = useState(5);
     const indexOfLastRight = currentPage * rightsPerPage;
     const indexOfFirstRight = indexOfLastRight - rightsPerPage;
     const currentRights = rights.slice(indexOfFirstRight, indexOfLastRight);
@@ -139,6 +139,7 @@ export default function Rights() {
             .catch((err) => {
                 console.log(err);
             });
+            setRightPerpage(10);
         setIsEditModalOpen(false);
     };
 
@@ -170,6 +171,7 @@ export default function Rights() {
             .catch((err) => {
                 console.log(err);
             });
+            setRightPerpage(10);
         setIsDeleteModalOpen(false);
     };
 
@@ -248,6 +250,7 @@ const handleSearch = () => {
             .catch((err) => {
                 console.log(err);
             });
+            setRightPerpage(10);
         setIsCreateModalOpen(false);
     };
 

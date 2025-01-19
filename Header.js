@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHospital, faUser, faRightFromBracket, faHospitalUser, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import { faHospital, faUser, faRightFromBracket, faHospitalUser, faIdCard, faTruckFast} from '@fortawesome/free-solid-svg-icons';
 import Auth from "@/components/Auth";
 
 export default function Header({ onNavClick, auth, setAuth, onLogout }) {
@@ -35,7 +35,7 @@ export default function Header({ onNavClick, auth, setAuth, onLogout }) {
               <button onClick={() => onNavClick('home')}
                 title="Home"
                 aria-label="Home">
-                <FontAwesomeIcon icon={faHospital} className="text-2xl md:text-4xl" />
+                <FontAwesomeIcon icon={faTruckFast} className="text-2xl md:text-4xl" />
               </button>
             </div>
             <div className="flex flex-col items-start">
