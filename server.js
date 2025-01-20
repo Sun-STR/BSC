@@ -1,5 +1,3 @@
-//npm install jsonwebtoken
-//npm install bcrypt
 // File: server.js
 const mysql = require('mysql2/promise'); // ใช้ mysql2/promise
 const config = require('./config');
@@ -318,3 +316,143 @@ app.listen(port, () => {
   });  
 
 
+
+app.get("/itd_data_exam", async (req, res) => {
+	try {
+	  const [results] = await pool.query("SELECT * FROM itd_data_exam");
+	  res.json(results);
+	} catch (err) {
+	  res.status(500).json({ error: "Error fetching patients", details: err.message });
+	}
+  });
+  
+// POST /itd_data_exam/create - สร้างข้อมูลใหม่
+app.post('/itd_data_exam/create/', async (req, res) => {
+	const params = req.body;
+	const insertSQL = `
+  INSERT INTO itd_data_exam (Age, Gender, Occupation, \`Educational Qualifications\`, \`Family size\`, Output) 
+  VALUES (?, ?, ?, ?, ?, ?)
+`;
+
+	const readSQL = "SELECT * FROM itd_data_exam";
+  
+	try {
+	  await pool.query(insertSQL, [
+		params.Age,
+		params.Gender,
+		params.Occupation,
+		params["Educational Qualifications"],
+		params["Family size"],
+		params.Output,
+	  ]);
+	  const [results] = await pool.query(readSQL);
+	  res.status(200).send(results);
+	} catch (err) {
+	  console.error('Database error:', err);
+	  res.status(500).send("Backend error!");
+	}
+  });
+
+  app.put('/itd_data_exam/update/', async (req, res) => {
+    const params = req.body;
+    const updateSQL = `
+        UPDATE itd_data_exam 
+        SET Age = ?, 
+            Gender = ?, 
+            Occupation = ?, 
+            \`Educational Qualifications\` = ?, 
+            \`Family size\` = ?, 
+            Output = ? 
+			WHERE ID = ?
+    `;
+
+    const readSQL = "SELECT * FROM itd_data_exam";
+
+    try {
+        // Execute the update query
+        await pool.query(updateSQL, [
+            params.Age,
+            params.Gender,
+            params.Occupation,
+            params["Educational Qualifications"],
+            params["Family size"],
+            params.Output,
+			params.ID,
+        ]);
+
+        // Fetch the updated data
+        const [results] = await pool.query(readSQL);
+        res.status(200).send(results);  // Return the updated data
+
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).send("Backend error!");
+    }
+});
+
+
+// DELETE /itd_data_exam/delete - Delete a record
+app.delete('/itd_data_exam/delete/', async (req, res) => {
+    const { ID } = req.body;
+
+    if (!ID) {
+        return res.status(400).send("ID is required.");
+    }
+
+    const deleteSQL = "DELETE FROM itd_data_exam WHERE id = ?";
+    const readSQL = "SELECT * FROM itd_data_exam";
+
+    try {
+        // Execute the delete query
+        const [result] = await pool.query(deleteSQL, [ID]);
+
+        // If no rows were affected, return 404 (data not found)
+        if (result.affectedRows === 0) {
+            return res.status(404).send("Record not found.");
+        }
+
+        // Fetch remaining data after deletion
+        const [remainingData] = await pool.query(readSQL);
+        res.status(200).send(remainingData); // Return the updated data
+
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).send("Backend error!");
+    }
+});
+
+  
+  // POST /itd_data_exam/search - ค้นหาข้อมูล
+  app.post('/itd_data_exam/search/:searchText', async (req, res) => {
+	const { searchText } = req.params;
+  
+	// ตรวจสอบข้อความค้นหา (validation)
+	if (/[^a-zA-Z0-9ก-๙\s]/.test(searchText)) {
+	  return res.status(400).json({ error: "Invalid search text" });
+	}
+  
+	const searchSQL = `
+	  SELECT * FROM itd_data_exam 
+	  WHERE Age LIKE ? 
+	  OR Gender LIKE ? 
+	  OR Occupation LIKE ? 
+	  OR Educational Qualifications LIKE ? 
+	  OR Family Size LIKE ? 
+	  OR Output LIKE ?
+	`;
+	try {
+	  const [results] = await pool.query(searchSQL, [
+		`%${searchText}%`,
+		`%${searchText}%`,
+		`%${searchText}%`,
+		`%${searchText}%`,
+		`%${searchText}%`,
+		`%${searchText}%`,
+	  ]);
+	  res.status(200).json(results);
+	} catch (err) {
+	  console.error('Database error:', err);
+	  res.status(500).json({ error: "Backend error", details: err.message });
+	}
+  });
+  
