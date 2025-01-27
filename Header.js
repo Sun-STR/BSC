@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHospital, faUser, faRightFromBracket, faHospitalUser, faIdCard, faTruckFast} from '@fortawesome/free-solid-svg-icons';
+import { faHospital, faUser, faRightFromBracket, faHospitalUser, faIdCard ,faTruckPlane} from '@fortawesome/free-solid-svg-icons';
 import Auth from "@/components/Auth";
 
 export default function Header({ onNavClick, auth, setAuth, onLogout }) {
@@ -35,11 +35,11 @@ export default function Header({ onNavClick, auth, setAuth, onLogout }) {
               <button onClick={() => onNavClick('home')}
                 title="Home"
                 aria-label="Home">
-                <FontAwesomeIcon icon={faTruckFast} className="text-2xl md:text-4xl" />
+                <FontAwesomeIcon icon={faTruckPlane} className="text-2xl md:text-4xl" />
               </button>
             </div>
             <div className="flex flex-col items-start">
-              <h1 className="text-lg md:text-2xl font-bold">BSC Hospital</h1>
+              <h1 className="text-lg md:text-2xl font-bold">BSC</h1>
               <p className="text-sm md:text-lg">We care for you</p>
             </div>
           </div>
@@ -47,20 +47,28 @@ export default function Header({ onNavClick, auth, setAuth, onLogout }) {
           <nav className="flex flex-row gap-1 md:gap-4">
             {auth ? (
               <>
-                <button
+                {/* <button
                   onClick={() => onNavClick('patients')}
                   className="text-white border border-white rounded hover:scale-105 transform transition-transform px-2 md:px-5 py-1 md:py-2 text-sm md:text-base"
                 >
                   <FontAwesomeIcon icon={faHospitalUser} className="mr-1 md:mr-2" />
                   <span className="hidden md:inline">Patients</span>
-                </button>
+                </button> */}
 
-                <button
+                {/* <button
                   onClick={() => onNavClick('rights')}
                   className="text-white border border-white rounded hover:scale-105 transform transition-transform px-2 md:px-5 py-1 md:py-2 text-sm md:text-base"
                 >
                   <FontAwesomeIcon icon={faIdCard} className="mr-1 md:mr-2" />
                   <span className="hidden md:inline">Rights</span>
+                </button> */}
+                
+                <button
+                  onClick={() => onNavClick('Delivery')}
+                  className="text-white border border-white rounded hover:scale-105 transform transition-transform px-2 md:px-5 py-1 md:py-2 text-sm md:text-base"
+                >
+                  <FontAwesomeIcon icon={faIdCard} className="mr-1 md:mr-2" />
+                  <span className="hidden md:inline">Delivery</span>
                 </button>
 
                 <button

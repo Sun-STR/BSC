@@ -5,9 +5,9 @@ export default function Footer() {
 
 bottom-0">
 
-            <p className="text-lg font-bold">BSC Hospital</p>
+            <p className="text-lg font-bold">Delivery</p>
             <p className="text-sm">123 Health St, Wellness City, HC 12345</p>
-            <p className="text-sm">©2024 BSC Hospital. All rights reserved.</p>
+            <p className="text-sm">©2024 Delivery. All rights reserved.</p>
         </footer>
     );
 }
